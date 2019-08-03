@@ -1,13 +1,6 @@
 import mysql.connector
 sql = """
-CREATE TABLE Calendar (
-  d DATE,
-  PRIMARY KEY (d),
-  event VARCHAR(255),
-  t TIME,
-  zone VARCHAR(255),
-  role VARCHAR(255)
-)
+INSERT INTO calendar (d, event, t, zone, role) VALUES ('2019-08-04', 'Group game', '07:30:15', 'PDT-0700', 'Splatoon2')
 """
 conn = mysql.connector.connect(
        host = "us-cdbr-iron-east-02.cleardb.net",
@@ -18,5 +11,7 @@ conn = mysql.connector.connect(
         )
 cursor = conn.cursor()
 cursor.execute(sql)
+conn.commit()
+print(cursor.rowcount, "record inserted.")
 #cursor.execute(sql, multi=True)
 #conn.commit()
