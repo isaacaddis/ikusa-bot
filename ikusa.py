@@ -20,6 +20,7 @@ conn = mysql.connector.connect(
        password = "bb45d6ec",
        database = "heroku_1492cb9b2e7e903"
         )
+cursor = conn.cursor()
 
 @bot.event
 async def on_ready():
@@ -32,5 +33,12 @@ async def on_message(message):
 @bot.command()
 async def ping(ctx):
     await ctx.send(bot.latency)
-
+@bot.command()
+async def start(ctx, date, event, t, zone, role):
+    sql = "INSERT INTO calendar (d, event, t, zone, role) VALUES (%s, %s, %s, %s, %s)"
+    vals = (date, event, t, zone, role)
+    cursor.execute(sql, vals)
+    conn.commit()
+    print("Made reservation for event {0} at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
+    await ctx.send("All set! :grinning: You chose to make reservation {0} at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
 bot.run("NjA1NTc3ODMyMTAxNDQ1NzEx.XUEV0w.RV3A5DDWjZDJzknoFoX6L0CJd0k")

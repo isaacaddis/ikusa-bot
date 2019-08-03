@@ -7,7 +7,8 @@ conn = mysql.connector.connect(
        database = "heroku_1492cb9b2e7e903"
         )
 cursor = conn.cursor()
-cursor.execute("SELECT * FROM calendar")
+#cursor.execute("SELECT * FROM calendar")
+cursor.execute("DESCRIBE calendar")
 for x in cursor:
     print(x)
 #cursor.execute(sql, multi=True)

@@ -1,7 +1,25 @@
 import mysql.connector
+
+sql = """
+    ALTER TABLE calendar ADD COLUMN event VARCHAR(255) AFTER d
+"""
+
+'''
 sql = """
 INSERT INTO calendar (d, event, t, zone, role) VALUES ('2019-08-04', 'Group game', '07:30:15', 'PDT-0700', 'Splatoon2')
 """
+'''
+'''
+sql = """
+ CREATE TABLE calendar(
+ id int AUTO_INCREMENT,
+ PRIMARY KEY (id),
+ d DATE,
+ t TIME,
+ zone VARCHAR(255),
+ role VARCHAR(255))
+"""
+'''
 conn = mysql.connector.connect(
        host = "us-cdbr-iron-east-02.cleardb.net",
        user = "b90bd7aafae0d8",
