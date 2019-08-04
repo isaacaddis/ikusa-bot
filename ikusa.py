@@ -3,6 +3,8 @@
 
 from discord.ext import commands
 from discord import Object
+from discord import utils
+
 from datetime import datetime
 from datetime import timedelta  
 
@@ -15,6 +17,7 @@ from helper import Helper
     Bot Config
 '''
 prefix = "."
+CHANNEL_ID = 605574059530649639
 bot = commands.Bot(command_prefix=prefix, description='Discord group event scheduler')
 h = Helper()
 
@@ -44,14 +47,23 @@ async def on_message(message):
 async def ping(ctx):
     await ctx.send(bot.latency)
 
-@bot.command()
+@bot.command(pass_context=True)
 async def start(ctx, date, event, t, zone, role):
     sql = "INSERT INTO calendar (d, event, t, zone, role) VALUES (%s, %s, %s, %s, %s)"
     vals = (date, event, t, zone, role)
     cursor.execute(sql, vals)
     conn.commit()
     print("Made reservation for event {0} at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
-    await ctx.send("All set! :grinning: You chose to make reservation {0} at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
+    channel = bot.get_channel(CHANNEL_ID)
+    msg = await channel.send("All set! :grinning: You chose to make reservation '{0}' at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
+    await msg.add_reaction(emoji="\N{GRINNING FACE}")
+    cache_msg = utils.get(bot.messages, id = msg.id)
+    for reactor in cache_msg.reactions:
+        reactors = await bot.get_reaction_users(reactor)
+        for member in reactors:
+            print("Member: {0}".format(member))
+            await channel.send(member.name)
+    
 
 '''
 Background task
@@ -65,7 +77,7 @@ async def background_loop():
     print("Today is", date_today)
     date_next = datetime.today() + timedelta(days=1)
     date_next = date_next.strftime('%Y-%m-%d')
-    channel = bot.get_channel(605574059530649639)
+    channel = bot.get_channel(CHANNEL_ID)
     sql = "SELECT * FROM calendar WHERE d >= %s AND d < %s"
     vals = (date_today,date_next)
     cursor.execute(sql,vals)
