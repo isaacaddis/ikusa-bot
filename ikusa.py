@@ -16,6 +16,7 @@ from helper import Helper
 '''
     Bot Config
 '''
+
 prefix = "."
 CHANNEL_ID = 605574059530649639
 bot = commands.Bot(command_prefix=prefix, description='Discord group event scheduler')
@@ -55,7 +56,7 @@ async def start(ctx, date, event, t, zone, role):
     print("Made reservation for event {0} at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
     channel = bot.get_channel(CHANNEL_ID)
     msg = await channel.send("All set! :grinning: You chose to make reservation '{0}' at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
-    await msg.add_reaction(emoji="\N{GRINNING FACE}")
+    await msg.add_reaction(emoji="\N{THUMBS UP SIGN}")
     '''
     cache_msg = utils.get(bot.messages, id = msg.id)
     for reactor in cache_msg.reactions:
