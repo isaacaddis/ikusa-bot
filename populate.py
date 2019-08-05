@@ -1,7 +1,7 @@
 import mysql.connector
 
 sql = """
-    ALTER TABLE calendar ADD COLUMN event VARCHAR(255) AFTER d
+    TRUNCATE TABLE calendar
 """
 
 '''

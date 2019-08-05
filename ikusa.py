@@ -35,17 +35,16 @@ cursor = conn.cursor()
 
 @bot.event
 async def on_ready():
-    print("Howdy.")
+    print("Initalized Ikusa bot.")
 
-'''
-@bot.event
-async def on_message(message):
-    pass
-
-'''
 @bot.command()
 async def ping(ctx):
     await ctx.send(bot.latency)
+
+'''
+    Main command
+    Params: date (YY-MM-DD) (str), event (str), t (str), zone (str), role (str)
+'''
 
 @bot.command(pass_context=True)
 async def start(ctx, date, event, t, zone, role):
@@ -57,25 +56,25 @@ async def start(ctx, date, event, t, zone, role):
     channel = bot.get_channel(CHANNEL_ID)
     msg = await channel.send("All set! :grinning: You chose to make reservation '{0}' at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
     await msg.add_reaction(emoji="\N{GRINNING FACE}")
+    '''
     cache_msg = utils.get(bot.messages, id = msg.id)
     for reactor in cache_msg.reactions:
         reactors = await bot.get_reaction_users(reactor)
         for member in reactors:
             print("Member: {0}".format(member))
             await channel.send(member.name)
+    '''
     
 
 '''
-Background task
-
+Background task - checks for scheduled events in the next 3 days
+Loops every 24 hours (86400 seconds)
 '''
 
 async def background_loop():
     await bot.wait_until_ready()
-    #greeting = h.get_random_greeting()
     date_today = datetime.today().strftime('%Y-%m-%d') 
-    print("Today is", date_today)
-    date_next = datetime.today() + timedelta(days=1)
+    date_next = datetime.today() + timedelta(days=2)
     date_next = date_next.strftime('%Y-%m-%d')
     channel = bot.get_channel(CHANNEL_ID)
     sql = "SELECT * FROM calendar WHERE d >= %s AND d < %s"
@@ -84,9 +83,9 @@ async def background_loop():
     result = cursor.fetchall()
     if result:
         for r in result:
-            await channel.send(h.get_random_greeting()+" Letting you know that you're scheduled for event {0} at {1} in timzeone {2}. This message is targeted for users with role {3}.".format(r[2], r[3], r[4], r[5]))
-            #print(r)
-            #await channel.send(r)
+            role_id = h.remove_whitespace(r[5]) #in this format: <@&603172759115399169>
+            print("Role ID: {0}".format(role_id))
+            await channel.send("{0} Letting you know that you're scheduled for event {1} at {2} in timzeone {3}. This message is targeted for users with role {4}.".format(h.get_random_greeting(),r[2], r[3], r[4], role_id))
     else:
         await channel.send("You have no events planned within the next three days. TODO: Delete this in production, it would be annoying.")
     asyncio.sleep(86400)

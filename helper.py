@@ -8,5 +8,7 @@ class Helper():
         self.GREETINGS = ["Checking in :wave:!", "Greetings :cartwheel:!", "It's me again :information_desk_person:"]
     def get_random_greeting(self):
         return random.choice(self.GREETINGS)
+    def remove_whitespace(self, text:str):
+        return text.replace(" ", "")
 
 
