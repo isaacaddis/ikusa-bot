@@ -2,8 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from discord.ext import commands
-from discord import Object
-from discord import utils
+from discord import (utils, Object, Embed)
 
 from datetime import datetime
 from datetime import timedelta  
@@ -55,11 +54,16 @@ async def start(ctx, date, event, t, zone, role):
     conn.commit()
     print("Made reservation for event {0} at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
     channel = bot.get_channel(CHANNEL_ID)
-    msg = await channel.send("All set! :grinning: You chose to make reservation '{0}' at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
+    embed = Embed(title = "Ikusa [Bot]", color=0xe87400)
+    embed.add_field(name="All set!", value = "You chose to make reservation '{0}' at {1} for {2}     in timezone {3} to members of {4}".format(event, date, t, zone, role))
+    msg = await channel.send(embed=embed)
+    #msg = await channel.send("All set! :grinning: You chose to make reservation '{0}' at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
     await msg.add_reaction(emoji="\N{THUMBS UP SIGN}")
+    #print("Msg: {}".format(msg))
     '''
-    cache_msg = utils.get(bot.messages, id = msg.id)
-    for reactor in cache_msg.reactions:
+    cached_msg = utils.get(bot.messages, id=msg.id)
+    print("Reactions: {}".format(cached_msg.reactions))
+    for reactor in cached_msg.reactions:
         reactors = await bot.get_reaction_users(reactor)
         for member in reactors:
             print("Member: {0}".format(member))
