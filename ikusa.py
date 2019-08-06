@@ -87,10 +87,12 @@ async def background_loop():
     cursor.execute(sql,vals)
     result = cursor.fetchall()
     if result:
+        embed = Embed(title = "Ikusa [Bot]", color=0xe87400)
         for r in result:
             role_id = h.remove_whitespace(r[5]) #in this format: <@&603172759115399169>
+            embed.add_field(name = "Scheduled: {0}".format(r[2]), value = "{0} Letting you know that you're scheduled for event {1} at {2} in timzeone {3}. This message is targeted for users with role {4}.".format(h.get_random_greeting(),r[2],r[3], r[4], role_id))
             print("Role ID: {0}".format(role_id))
-            await channel.send("{0} Letting you know that you're scheduled for event {1} at {2} in timzeone {3}. This message is targeted for users with role {4}.".format(h.get_random_greeting(),r[2], r[3], r[4], role_id))
+            await channel.send(embed=embed)
     else:
         await channel.send("You have no events planned within the next three days. TODO: Delete this in production, it would be annoying.")
     asyncio.sleep(86400)
