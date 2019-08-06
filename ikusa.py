@@ -18,7 +18,7 @@ from helper import Helper
 '''
 
 prefix = "."
-CHANNEL_ID = 605574059530649639
+CHANNEL_ID = 608048185037946883
 bot = commands.Bot(command_prefix=prefix, description='Discord group event scheduler')
 h = Helper()
 
