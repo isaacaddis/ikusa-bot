@@ -46,6 +46,7 @@ async def ping(ctx):
     Params: date (YY-MM-DD) (str), event (str), t (str), zone (str), role (str)
 '''
 
+
 @bot.command(pass_context=True)
 async def start(ctx, date, event, t, zone, role):
     sql = "INSERT INTO calendar (d, event, t, zone, role) VALUES (%s, %s, %s, %s, %s)"
@@ -58,18 +59,7 @@ async def start(ctx, date, event, t, zone, role):
     embed.add_field(name="All set!", value = "You chose to make reservation '{0}' at {1} for {2}     in timezone {3} to members of {4}".format(event, date, t, zone, role))
     msg = await channel.send(embed=embed)
     #msg = await channel.send("All set! :grinning: You chose to make reservation '{0}' at {1} for {2} in timezone {3} to members of {4}".format(event, date, t, zone, role))
-    await msg.add_reaction(emoji="\N{THUMBS UP SIGN}")
-    #print("Msg: {}".format(msg))
-    '''
-    cached_msg = utils.get(bot.messages, id=msg.id)
-    print("Reactions: {}".format(cached_msg.reactions))
-    for reactor in cached_msg.reactions:
-        reactors = await bot.get_reaction_users(reactor)
-        for member in reactors:
-            print("Member: {0}".format(member))
-            await channel.send(member.name)
-    '''
-    
+    await msg.add_reaction(emoji="\u2705")
 
 '''
 Background task - checks for scheduled events in the next 3 days
@@ -93,8 +83,10 @@ async def background_loop():
             embed.add_field(name = "Scheduled: {0}".format(r[2]), value = "{0} Letting you know that you're scheduled for event {1} at {2} in timzeone {3}. This message is targeted for users with role {4}.".format(h.get_random_greeting(),r[2],r[3], r[4], role_id))
             print("Role ID: {0}".format(role_id))
             await channel.send(embed=embed)
+    '''
     else:
         await channel.send("You have no events planned within the next three days. TODO: Delete this in production, it would be annoying.")
+    '''
     asyncio.sleep(86400)
 
 bot.loop.create_task(background_loop()) #initializes background loop as task
