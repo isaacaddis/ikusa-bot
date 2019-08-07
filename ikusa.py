@@ -11,6 +11,7 @@ import asyncio
 import mysql.connector
 
 from helper import Helper
+import secret
 
 '''
     Bot Config
@@ -23,13 +24,13 @@ bot.remove_command("help")
 h = Helper()
 
 '''
-    Connect to SQL server
+    Connect to SQL server (config for your own DB)
 '''
 
 conn = mysql.connector.connect(
        host = "us-cdbr-iron-east-02.cleardb.net", 
        user = "b90bd7aafae0d8",
-       password = "bb45d6ec",
+       password = secret.PASSWORD,
        database = "heroku_1492cb9b2e7e903"
         )
 cursor = conn.cursor()
@@ -88,8 +89,8 @@ async def start(ctx, date, event, t, zone, role):
     await msg.add_reaction(emoji="\u2705")
 
 '''
-Background task - checks for scheduled events in the next 3 days
-Loops every 24 hours (86400 seconds)
+    Background task - checks for scheduled events in the next 3 days
+    Loops every 24 hours (86400 seconds)
 '''
 
 async def background_loop():
@@ -109,10 +110,6 @@ async def background_loop():
             embed.add_field(name = "Scheduled: {0}".format(r[2]), value = "{0} Letting you know that you're scheduled for event {1} at {2} in timzeone {3}. This message is targeted for users with role {4}.".format(h.get_random_greeting(),r[2],r[3], r[4], role_id))
             print("Role ID: {0}".format(role_id))
             await channel.send(embed=embed)
-    '''
-    else:
-        await channel.send("You have no events planned within the next three days. TODO: Delete this in production, it would be annoying.")
-    '''
     asyncio.sleep(86400)
 
 '''
@@ -127,6 +124,5 @@ async def help(ctx):
     embed.add_field(name="ikusa config", value="This method will require you to input the data as shown above, but in a step-by-step manner with directions, as opposed to a single-step command. You can also use multi-word event names with this method (commands treat space-delimited words as individual arguments)")
     await ctx.send(embed=embed)
     
-
-bot.loop.create_task(background_loop()) #initializes background loop as task
-bot.run("NjA1NTc3ODMyMTAxNDQ1NzEx.XUEV0w.RV3A5DDWjZDJzknoFoX6L0CJd0k")
+bot.loop.create_task(background_loop())
+bot.run(secret.TOKEN)  # EDIT THIS FOR CUSTOM USE
