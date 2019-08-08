@@ -8,7 +8,7 @@ from datetime import datetime
 from datetime import timedelta  
 
 import asyncio
-import mysql.connector
+import pymysql
 
 from helper import Helper
 import secret
@@ -18,7 +18,7 @@ import secret
 '''
 
 prefix = "."
-CHANNEL_ID = 608048185037946883
+CHANNEL_ID = 607816926965661727
 bot = commands.Bot(command_prefix=prefix, description='Discord group event scheduler')
 bot.remove_command("help")
 h = Helper()
@@ -27,7 +27,7 @@ h = Helper()
     Connect to SQL server (config for your own DB)
 '''
 
-conn = mysql.connector.connect(
+conn = pymysql.connect(
        host = "us-cdbr-iron-east-02.cleardb.net", 
        user = "b90bd7aafae0d8",
        password = secret.PASSWORD,
