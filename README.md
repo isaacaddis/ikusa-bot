@@ -31,7 +31,7 @@ Here is an example command:
 .start 2019-08-06 hangout 01:35:00 gmt-7 <@&608041105207853133>
 ```
 
-Because coomands parse each space-delimited word as a new argument, there is currently no support for multi-word event names within command-mode. Use the interactive mode if that is something you want. You can get the role or channel ID you want to input as the last argument (the group to mention during event notifications) by setting up Developer Mode within your Discord client and entering "\@role" or "\#channel" as a message for roles and channels, respectively. 
+Because commands parse each space-delimited word as a new argument, there is currently no support for multi-word event names within command-mode. Use the interactive mode if that is something you want. You can get the role or channel ID you want to input as the last argument (the group to mention during event notifications) by setting up Developer Mode within your Discord client and entering \\@role or \\#channel as a message for roles and channels, respectively. 
 
 ### Notifications
 
