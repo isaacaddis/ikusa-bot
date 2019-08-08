@@ -60,7 +60,7 @@ async def on_message(message):
         t = (await bot.wait_for("message",check=check)).content
         await channel.send("What timezone is {0} configured for? (Example: GMT-7)".format(t))
         zone = (await bot.wait_for("message",check=check)).content
-        await channel.send("Lastly, tell me who you want to send this to. You can get the ID of a role or channel by entering '\@role' or '\#channel' (without the quotes).")
+        await channel.send("Lastly, tell me who you want to send this to. You can get the ID of a role or channel by entering '\\@role' or '\\#channel' (without the quotes).")
         role = (await bot.wait_for("message",check=check)).content
         sql = "INSERT INTO calendar (d, event, t, zone, role) VALUES (%s, %s, %s, %s, %s)"
         vals = (date, event, t, zone, role)
