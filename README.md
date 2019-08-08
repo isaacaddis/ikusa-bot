@@ -15,9 +15,9 @@ Clone the repository and replace the bot token and channel ID with those that pe
 
 Run the bot by simply running `python ikusa.py`. 
 
-#### Interactive (Recommend)
+#### Interactive (Recommended)
 
-Interactively use Ikusa by typing `ikusa config` in your schedule channel. The author that runs this command must be the one responding to the ensuing prompts. Additionally, you must be in the same server.
+Interactively use Ikusa by typing `ikusa config` in your schedule channel. The author that runs this command must be the one responding to the ensuing prompts. Additionally, you must be in the same channel that you called `ikusa config` in.
 
 #### Command-Based
 

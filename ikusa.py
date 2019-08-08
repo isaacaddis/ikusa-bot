@@ -50,7 +50,7 @@ async def on_message(message):
         author = message.author
         def check(ms):
             return (ms.channel == channel and ms.author == author)
-        await message.channel.send("I'm here! Start off by telling me what date your event will take place. (YY-MM-DD)")
+        await message.channel.send("I'm here! Start off by telling me what date your event will take place. (YYYY-MM-DD)")
         date = (await bot.wait_for("message",check=check)).content
         await channel.send("Okay, I've got you scheduled for {0}".format(date))
         await channel.send("Next, tell me the name of your event.")
@@ -60,7 +60,7 @@ async def on_message(message):
         t = (await bot.wait_for("message",check=check)).content
         await channel.send("What timezone is {0} configured for? (Example: GMT-7)".format(t))
         zone = (await bot.wait_for("message",check=check)).content
-        await channel.send("Lastly, tell me who you want to send this to. You can get the ID of a role or channel by entering '\\@role' or '\\#channel' (without the quotes).")
+        await channel.send("Lastly, tell me who you want to send this to. You can get the ID of a role or channel by entering [backslash]@role or [backslash]#channel")
         role = (await bot.wait_for("message",check=check)).content
         sql = "INSERT INTO calendar (d, event, t, zone, role) VALUES (%s, %s, %s, %s, %s)"
         vals = (date, event, t, zone, role)
