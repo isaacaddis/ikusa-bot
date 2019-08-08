@@ -1,5 +1,7 @@
 # Ikusa
 
+![Screenshot of interactive usage](in_action.png)
+
 A simple-to-use and simple-to-maintain flexible Python bot for Discord. Can be used in two ways: 1. command-based and 2. interactively. For multi-word event names please use the interactive mode (by entering `ikusa config` in your designated schedule channel)
 
 ## Requirements
